@@ -19,6 +19,7 @@ https://www.python.org/
 ```bash
 cd 다운한경로
 python -m venv venv
+source venv/bin/activate (맥/리눅스) or source venv/Scripts/activate (윈도우)
 pip install -r requirements.txt
 ```
 를 입력하여 가상환경을 설치합니다.
