@@ -32,6 +32,8 @@ python download_images.py
 
 id_title.png 포맷으로 저장됩니다.
 
+저작권은 안다미로에 있음을 주의하셔야 합니다.
+
 # 서열표 난이도 추출 알고리즘
 
 levels에 원하는 서열표 이미지를 넣어줍니다.
