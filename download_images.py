@@ -45,6 +45,7 @@ def main():
     #             "artist": "Massive New Krew & RoughSketch",
     #             "imageUrl": "https://piugame.com/data/song_img/abec5c2e20d275765d72cbe1c98bb4bb.png?v=20241128114126",
     #             "difficulty": "S20"
+
     data = {'date': '2024-01-01'}
     headers = {
         'Content-Type': 'application/json',
@@ -69,16 +70,19 @@ def main():
     # 압축 해제 및 저장
     zip_file.extractall(ROOT_PATH)
 
-    # id에 이름 붙이기
-    for image_name in os.listdir(ROOT_PATH):
-        old_path = os.path.join(ROOT_PATH, image_name)  # 기존 파일 경로
-        image_id, ext = os.path.splitext(image_name)
-        image_id = int(image_id)
-        new_filename = clean_filename(ids[image_id])
-        new_filename = f'{image_id}_{new_filename}{ext}'
-        new_path = os.path.join(ROOT_PATH, new_filename)  # 새 파일 경로
+    to_change = input('이름 타이틀 추가 [Y/n]: ')
 
-        os.rename(old_path, new_path)
+    if to_change == 'Y':
+        # id에 이름 붙이기
+        for image_name in os.listdir(ROOT_PATH):
+            old_path = os.path.join(ROOT_PATH, image_name)  # 기존 파일 경로
+            image_id, ext = os.path.splitext(image_name)
+            image_id = int(image_id)
+            new_filename = clean_filename(ids[image_id])
+            new_filename = f'{image_id}_{new_filename}{ext}'
+            new_path = os.path.join(ROOT_PATH, new_filename)  # 새 파일 경로
+
+            os.rename(old_path, new_path)
 
 
 if __name__ == "__main__":
