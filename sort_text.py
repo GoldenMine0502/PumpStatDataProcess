@@ -46,7 +46,9 @@ def sort_text(file_path):
 #     'levels/서열표S22.png',
 #     'levels/서열표S23.png',
 # ]
-main_images = list_all_files_recursive('levels')
+folder = input('폴더: ')
+main_images = list_all_files_recursive(folder)
 # for filename in difficulty_positions.keys():
 for filename in tqdm(main_images):
-    sort_text(f'{filename}.txt')
+    if filename.endswith('.txt'):
+        sort_text(filename)
