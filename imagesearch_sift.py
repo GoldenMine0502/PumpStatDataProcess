@@ -254,7 +254,8 @@ def main():
     #     'levels/서열표S22.png',
     #     'levels/서열표S23.png',
     # ]
-    main_images = list_all_files_recursive('levels')
+    folder = input('폴더 입력: ')
+    main_images = list_all_files_recursive(folder)
     for main_image in main_images:
         if 'txt' in main_image or '_result' in main_image:
             continue
