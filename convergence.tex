@@ -1,0 +1,74 @@
+\documentclass[12pt]{article}
+\usepackage{kotex}
+\usepackage{amsmath,amssymb}
+\usepackage[a4paper,margin=2cm]{geometry}
+
+\begin{document}
+
+\section*{Convergence Score Formula}
+
+가정:
+\[
+D = \{\,d_1, d_2, \dots, d_n\},
+\quad
+n = |D|.
+\]
+
+\paragraph{Mean (평균):}
+\[
+\mu = \frac{1}{n}\sum_{i=1}^{n} d_i.
+\]
+
+\paragraph{Standard Deviation (표준편차):}
+\[
+\sigma = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\,d_i - \mu\,)^2}.
+\]
+
+\paragraph{Most Frequent Ratio (가장 많이 선택된 비율):}
+\[
+r_{\max}
+= \frac{\max(\text{count}(d_i))}{n}.
+\]
+(예: 어떤 $d$가 가장 많이 등장했다면, 그 등장 횟수를 $n$으로 나눈 값)
+
+\paragraph{Focus Score (집중도):}
+\[
+f = \sqrt{r_{\max}}.
+\]
+
+\paragraph{Extremity (극단성):}
+\[
+e = \sqrt{\frac{\lvert \mu - 0.5\rvert}{0.75}},
+\]
+여기서 $0.5$는 난이도 구간의 중앙, $0.75$는 $-0.25$나 $1.25$에서 중앙까지의 최대 거리로 가정.
+
+\paragraph{Cohesiveness (응집도):}
+\[
+c = 1 \;-\; \frac{\sigma}{0.75}.
+\]
+($\sigma_{\max} = 0.75$라 가정)
+
+\subsection*{최종 수렴도 (Convergence Score)}
+
+\[
+\boxed{
+S
+= f \cdot e \cdot c
+= \sqrt{r_{\max}}
+\,\times\,
+\sqrt{\frac{\lvert \mu - 0.5\rvert}{0.75}}
+\,\times\,
+\Bigl(1 - \frac{\sigma}{0.75}\Bigr)
+}.
+\]
+
+\vspace{2em}
+\noindent
+\textbf{설명:}
+\begin{itemize}
+\item $f = \sqrt{r_{\max}}$ : 한 지점(난이도)에 투표가 얼마나 몰렸는지
+\item $e = \sqrt{\frac{\lvert \mu - 0.5\rvert}{0.75}}$ : 평균이 중앙(0.5)에서 얼마나 떨어져 있는지
+\item $c = 1 - \frac{\sigma}{0.75}$ : 전체 표준편차(분산)가 얼마나 낮은지 (낮을수록 응집도가 높음)
+\end{itemize}
+
+\end{document}

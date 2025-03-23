@@ -4,3 +4,7 @@ venv
 images
 .DS_Store
 create_database.py
+
+*.aux
+*.log
+*.pdf

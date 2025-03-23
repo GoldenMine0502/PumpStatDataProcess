@@ -1,6 +1,7 @@
 
 import numpy as np
 
+
 def classify_by_std(data, step_size=0.25, threshold_steps=1.5):
     """
     데이터에서 기준값(reference_value)과의 차이가 특정 단계(threshold_steps) 이상인지에 따라 분류
@@ -33,7 +34,7 @@ def classify_by_std(data, step_size=0.25, threshold_steps=1.5):
 # 하,중하,중,중상,상 하나씩 기여시 0.3535
 #
 # 기존 v2.05 서열표에서 고유의 경우 하, 상으로 일괄 기여 = 0.5
-data = [0, 0.75]
+data = [0, 1, 0, -0.25, 0]
 
 high_diff, low_diff, mean_val, std_dev = classify_by_std(data)
 
