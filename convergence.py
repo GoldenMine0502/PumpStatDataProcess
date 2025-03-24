@@ -61,13 +61,16 @@ def calculate_convergence_score(votes, step_values=None):
 
     # 중앙성: 평균이 0.5에서 얼마나 가까운가
     centrality = 1 - abs(mean - 0.5) / 0.75  # 0.75는 최대 거리
-    extremity = math.sqrt(abs(mean - 0.5) / 0.75)
+    extremity = 0.5 + 0.5 * abs(mean - 0.5) / 0.75
 
-    focus_score = math.sqrt(np.max(probs))
+    # print(np.max(probs))
+    # focus_score = math.log(1 + np.max(probs))
+    focus_score = 0.5 + 0.5 * np.max(probs)
 
-    # 최대 표준편차 (실제 상황에서는 약 0.43이 최대치)
+    # 최대 표준편차
     sigma_max = 0.75
     # convergence_score = centrality * (1 - std / sigma_max)
+    # convergence_score = focus_score * extremity * (1 - std / sigma_max)
     convergence_score = focus_score * extremity * (1 - std / sigma_max)
 
     return {
@@ -106,6 +109,10 @@ examples = {
     "2한쪽4": [7, 0, 0, 0, 0, 0, 1],
     "2한쪽5": [9, 0, 0, 0, 0, 0, 1],
     "2한쪽6": [11, 0, 0, 0, 0, 0, 1],
+    "쥬숏": [3, 3, 0, 0, 0, 1, 0],
+    "라푸스": [0, 1, 2, 0, 0, 1, 0],
+    "팬텀": [0, 1, 1, 0, 1, 1, 0],
+    "러쉬-모어": [0, 1, 1, 2, 0, 1, 0],
 }
 
 # for label, votes in examples.items():
@@ -120,9 +127,12 @@ examples = {
 
 for label, votes in examples.items():
     result = calculate_convergence_score(votes)
-
-    if result['convergence_score'] >= 0.2:
-        continue
+    # result['convergence_score']) >= 0.2
+    # -convergence_score <= 0.2
+    # 0.475 - convergence_score <= 0.675
+    # if (0.475 - result['convergence_score']) < 0.275:
+    #     continue
 
     print(f"{label} : {votes}")
+    # print(1 - result['convergence_score'])
     print(f"  Mean: {result['mean']}, Std: {result['std']}, Centrality: {result['centrality']}, extremity: {result['extremity']}, focus_score: {result['focus_score']}, Score: {result['convergence_score']}")
