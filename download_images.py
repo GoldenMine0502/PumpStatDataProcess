@@ -50,7 +50,7 @@ def main():
     headers = {
         'Content-Type': 'application/json',
     }
-    res = requests.post("https://pump.goldenmine.kr/pump/song/all", headers=headers, json=data).json()
+    res = requests.post("https://home.goldenmine.kr/pump/song/all", headers=headers, json=data).json()
 
     ids = {}
     for song in res['list']:
@@ -64,7 +64,7 @@ def main():
 
     size = len(ids)
     print(f'size: {size}')
-    response = requests.get(f"https://pump.goldenmine.kr/pump/song/image/1/{size}", stream=True)
+    response = requests.get(f"https://home.goldenmine.kr/pump/song/image/1/{size}", stream=True)
     # 메모리 내에서 ZIP 파일 처리
     zip_file = zipfile.ZipFile(io.BytesIO(response.content))
     # 압축 해제 및 저장
