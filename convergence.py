@@ -1,41 +1,4 @@
 import numpy as np
-import math
-
-
-def calculate_focus_convergence(votes, step_values=None):
-    if step_values is None:
-        step_values = np.arange(-0.25, 1.26, 0.25)
-
-    votes = np.array(votes)
-    total_votes = np.sum(votes)
-
-    if total_votes == 0:
-        return {
-            "mean": None,
-            "std": None,
-            "focus_score": None,
-            "focus_convergence": None
-        }
-
-    probs = votes / total_votes
-    mean = np.sum(probs * step_values)
-    variance = np.sum(probs * (step_values - mean) ** 2)
-    std = np.sqrt(variance)
-
-    sigma_max = 0.75
-    cohesive_convergence = 1 - (std / sigma_max)
-    focus_score = np.max(probs)
-
-    # 새 수렴도: 표준편차 기반 수렴도 × 집중도
-    focus_convergence = cohesive_convergence * focus_score
-
-    return {
-        "mean": round(mean, 3),
-        "std": round(std, 3),
-        "cohesive_convergence": round(cohesive_convergence, 3),
-        "focus_score": round(focus_score, 3),
-        "focus_convergence": round(focus_convergence, 3)
-    }
 
 
 def calculate_convergence_score(votes, step_values=None):
@@ -46,31 +9,20 @@ def calculate_convergence_score(votes, step_values=None):
     votes = np.array(votes)
     total_votes = np.sum(votes)
 
-    # if total_votes == 0:
-    #     return {
-    #         "mean": None,
-    #         "std": None,
-    #         "centrality": None,
-    #         "convergence_score": None
-    #     }
-
     probs = votes / total_votes
     mean = np.sum(probs * step_values)
     variance = np.sum(probs * (step_values - mean) ** 2)
     std = np.sqrt(variance)
 
-    # 중앙성: 평균이 0.5에서 얼마나 가까운가
+    # 고유일수록 중급에 수렴하는 경향이 있으므로 극단으로 수렴하는 고유 곡을 높게 쳐줍니다.
     centrality = 1 - abs(mean - 0.5) / 0.75  # 0.75는 최대 거리
     extremity = 0.5 + 0.5 * abs(mean - 0.5) / 0.75
 
-    # print(np.max(probs))
-    # focus_score = math.log(1 + np.max(probs))
+    # 집중도: 한 투표로 몰린 정도. 한 투표로 몰릴수록 높게 쳐줍니다.
     focus_score = 0.5 + 0.5 * np.max(probs)
 
-    # 최대 표준편차
+    # 응집도: 표준편차가 낮을수록 높음
     sigma_max = 0.75
-    # convergence_score = centrality * (1 - std / sigma_max)
-    # convergence_score = focus_score * extremity * (1 - std / sigma_max)
     convergence_score = focus_score * extremity * (1 - std / sigma_max)
 
     return {
@@ -115,24 +67,11 @@ examples = {
     "러쉬-모어": [0, 1, 1, 2, 0, 1, 0],
 }
 
-# for label, votes in examples.items():
-#     result = calculate_focus_convergence(votes)
-#
-#     # if result['focus_convergence'] >= 0:
-#     #     continue
-#
-#     print(f"{label}")
-#     print(f"  Mean: {result['mean']}, Std: {result['std']}")
-#     print(f"  Cohesive Convergence: {result['cohesive_convergence']}, Focus Score: {result['focus_score']}, Final Convergence: {result['focus_convergence']}")
-
 for label, votes in examples.items():
     result = calculate_convergence_score(votes)
-    # result['convergence_score']) >= 0.2
-    # -convergence_score <= 0.2
-    # 0.475 - convergence_score <= 0.675
-    # if (0.475 - result['convergence_score']) < 0.275:
+
+    # if result['convergence_score'] >= 0.2:
     #     continue
 
     print(f"{label} : {votes}")
-    # print(1 - result['convergence_score'])
     print(f"  Mean: {result['mean']}, Std: {result['std']}, Centrality: {result['centrality']}, extremity: {result['extremity']}, focus_score: {result['focus_score']}, Score: {result['convergence_score']}")
